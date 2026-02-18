@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matematik Quiz</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="panel">
+        <h1>Matematik Quiz</h1>
+        <div class="settings-grid">
+          <label>
+            İşlem Türü
+            <select id="operationType">
+              <option value="add">Toplama</option>
+              <option value="subtract">Çıkarma</option>
+              <option value="multiply">Çarpma</option>
+              <option value="divide">Bölme</option>
+              <option value="mixed">Karışık</option>
+            </select>
+          </label>
+          <label>
+            Zorluk
+            <select id="difficulty">
+              <option value="easy">Kolay</option>
+              <option value="medium">Orta</option>
+              <option value="hard">Zor</option>
+            </select>
+          </label>
+          <label>
+            Soru Adedi
+            <select id="questionCount">
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+            </select>
+          </label>
+          <button id="startBtn" class="primary">Başlat</button>
+        </div>
+      </header>
+
+      <section class="panel question-panel" id="questionPanel">
+        <div class="status-row">
+          <p id="progressText">Henüz başlamadı</p>
+          <p class="kbd-help">Klavye: A/B/C, Enter = Boş</p>
+        </div>
+        <h2 id="questionText">Başlat tuşuna basarak quizi başlatın.</h2>
+
+        <div class="choices" id="choicesContainer">
+          <button class="choice" data-choice="A">A</button>
+          <button class="choice" data-choice="B">B</button>
+          <button class="choice" data-choice="C">C</button>
+        </div>
+
+        <div class="hint-area">
+          <button id="hintBtn">İpucu</button>
+          <p id="hintText" class="hint-text hidden"></p>
+        </div>
+
+        <div class="feedback" id="feedbackText"></div>
+      </section>
+
+      <section class="panel bottom-grid">
+        <div class="stats">
+          <h3>İstatistik</h3>
+          <p>Toplam: <strong id="statTotal">0</strong></p>
+          <p>Doğru: <strong id="statCorrect">0</strong></p>
+          <p>Yanlış: <strong id="statWrong">0</strong></p>
+          <p>Boş: <strong id="statBlank">0</strong></p>
+        </div>
+
+        <div class="actions">
+          <button id="skipBtn">Boş Geç</button>
+          <button id="finishBtn">Bitir / Çıkış</button>
+          <button id="downloadBtn" disabled>TXT indir</button>
+        </div>
+
+        <div class="history">
+          <h3>Son 10 Oturum</h3>
+          <ul id="historyList">
+            <li>Henüz kayıt yok.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
