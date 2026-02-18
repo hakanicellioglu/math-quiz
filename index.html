@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MatikQuiz – Matematik Testi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ░░ SETUP SCREEN ░░ -->
+<div id="screen-setup" class="screen active">
+  <div class="setup-wrapper">
+    <div class="logo-area">
+      <div class="logo-icon">∑</div>
+      <h1>MatikQuiz</h1>
+      <p class="tagline">Zihninizi test edin, sonuçlarınızı analiz edin.</p>
+    </div>
+
+    <div class="card setup-card">
+      <div class="form-group">
+        <label>İşlem Türü</label>
+        <div class="btn-group" id="op-group">
+          <button class="tog-btn active" data-val="mixed">Karışık</button>
+          <button class="tog-btn" data-val="add">Toplama</button>
+          <button class="tog-btn" data-val="sub">Çıkarma</button>
+          <button class="tog-btn" data-val="mul">Çarpma</button>
+          <button class="tog-btn" data-val="div">Bölme</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Zorluk</label>
+        <div class="btn-group" id="diff-group">
+          <button class="tog-btn active" data-val="easy">Kolay</button>
+          <button class="tog-btn" data-val="medium">Orta</button>
+          <button class="tog-btn" data-val="hard">Zor</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Soru Adedi</label>
+        <div class="btn-group" id="count-group">
+          <button class="tog-btn active" data-val="10">10</button>
+          <button class="tog-btn" data-val="20">20</button>
+          <button class="tog-btn" data-val="30">30</button>
+        </div>
+      </div>
+
+      <button class="btn-start" id="btn-start">Testi Başlat →</button>
+    </div>
+
+    <!-- History panel -->
+    <div id="history-panel" class="card history-card" style="display:none">
+      <h3>Son Oturumlar</h3>
+      <ul id="history-list"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- ░░ QUIZ SCREEN ░░ -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-wrapper">
+
+    <!-- Header bar -->
+    <div class="quiz-header">
+      <div class="quiz-meta">
+        <span id="q-progress">1 / 10</span>
+        <span id="q-mode-badge">Karışık · Kolay</span>
+      </div>
+      <button class="btn-exit" id="btn-exit">✕ Bitir</button>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="stats-bar">
+      <div class="stat-item correct"><span class="stat-label">Doğru</span><span class="stat-val" id="stat-correct">0</span></div>
+      <div class="stat-item wrong"><span class="stat-label">Yanlış</span><span class="stat-val" id="stat-wrong">0</span></div>
+      <div class="stat-item empty"><span class="stat-label">Boş</span><span class="stat-val" id="stat-empty">0</span></div>
+      <div class="stat-item total"><span class="stat-label">Toplam</span><span class="stat-val" id="stat-total">0</span></div>
+    </div>
+
+    <!-- Question card -->
+    <div class="card question-card">
+      <div class="q-number" id="q-number">Soru 1</div>
+      <div class="q-text" id="q-text">2 + 3 = ?</div>
+
+      <!-- Hint -->
+      <div class="hint-area">
+        <button class="btn-hint" id="btn-hint">💡 İpucu</button>
+        <div class="hint-box" id="hint-box" style="display:none"></div>
+      </div>
+
+      <!-- Choices -->
+      <div class="choices" id="choices">
+        <button class="choice-btn" data-idx="0" data-key="A"><span class="choice-key">A</span><span class="choice-val" id="c0"></span></button>
+        <button class="choice-btn" data-idx="1" data-key="B"><span class="choice-key">B</span><span class="choice-val" id="c1"></span></button>
+        <button class="choice-btn" data-idx="2" data-key="C"><span class="choice-key">C</span><span class="choice-val" id="c2"></span></button>
+      </div>
+
+      <!-- Feedback -->
+      <div class="feedback-box" id="feedback-box" style="display:none"></div>
+    </div>
+
+    <!-- Bottom actions -->
+    <div class="quiz-actions">
+      <button class="btn-skip" id="btn-skip">Boş Geç (Enter)</button>
+      <button class="btn-next" id="btn-next" style="display:none">Sonraki Soru →</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ░░ RESULT SCREEN ░░ -->
+<div id="screen-result" class="screen">
+  <div class="result-wrapper">
+    <div class="card result-card">
+      <div class="result-icon" id="result-icon">🏆</div>
+      <h2 id="result-title">Tebrikler!</h2>
+      <p id="result-subtitle">İşte sonuçlarınız</p>
+
+      <div class="result-stats">
+        <div class="rs-item"><span class="rs-num" id="rs-total">0</span><span class="rs-lbl">Toplam</span></div>
+        <div class="rs-item correct"><span class="rs-num" id="rs-correct">0</span><span class="rs-lbl">Doğru</span></div>
+        <div class="rs-item wrong"><span class="rs-num" id="rs-wrong">0</span><span class="rs-lbl">Yanlış</span></div>
+        <div class="rs-item empty"><span class="rs-num" id="rs-empty">0</span><span class="rs-lbl">Boş</span></div>
+      </div>
+
+      <div class="score-bar-wrap">
+        <div class="score-bar" id="score-bar"></div>
+      </div>
+      <div class="score-pct" id="score-pct">%0</div>
+
+      <div class="result-actions">
+        <button class="btn-download" id="btn-download">⬇ TXT İndir</button>
+        <button class="btn-restart" id="btn-restart">Yeniden Başla</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
